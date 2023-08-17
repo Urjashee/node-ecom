@@ -1,7 +1,7 @@
 const pool = require("../../config/database")
 
 module.exports = {
-    createOrders: (data, callBack) => {
+    create: (data, callBack) => {
         pool.query(
             `insert into orders(billing_address, user_id, amount) values (?,?,?)`,
             [
@@ -23,7 +23,7 @@ module.exports = {
             [
                 data.order_id,
                 data.product_id,
-                data.quantity
+                data.quantity,
             ],
             (error, results, fields) => {
                 if (error) {
@@ -33,17 +33,17 @@ module.exports = {
             }
         )
     },
-    
+
     getOrders: (id, callBack) => {
         pool.query(
-            `select * from orders where order_id=?`,
+            `select * from orders where order_id = ?`,
             [id],
-            (error, results, field) => {
+            (error, results, fields) => {
                 if (error) {
                     return callBack(error)
                 }
-                return callBack(null, results[0])
+                return callBack(null, results)
             }
         )
-    },
+    }
 }

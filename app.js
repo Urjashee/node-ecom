@@ -15,6 +15,6 @@ app.get("/", (req, res) => {
     res.send("Hello Worlds!")
 });//listen to end points
 
-app.listen(3000, () => {
-    console.log("Server is running:3000");
+app.listen(process.env.APP_PORT, () => {
+    console.log("Server is running:", process.env.APP_PORT);
 })

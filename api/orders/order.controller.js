@@ -1,9 +1,9 @@
-const {createOrders, createOrderDetails, getOrders} = require("./order.service")
+const {create, createOrderDetails, getOrders} = require("./order.service")
 
 module.exports ={
-    create:(req, res) => {
+    createOrders:(req, res) => {
         const body = req.body;
-        createOrders(body, (err, result) => {
+        create(body, (err, result) => {
             if(err) {
                 return res.status(500).json({
                     success: false,
@@ -11,14 +11,31 @@ module.exports ={
                     data:err
                 })
             }
-            return res.status(200).json({
-                success: true,
-                message:"SUCCESS"
+            // return res.status(200).json({
+            //     success: true,
+            //     message:"SUCCESS",
+            //     result: body.products
+            // })
+            body.products.map((item)=>{
+                item.order_id=result.insertId
+                createOrderDetails(item, (err, results) => {
+                    if(err) {
+                        return res.status(500).json({
+                            success: false,
+                            message:"ERROR",
+                            data:err
+                        })
+                    }
+                    return res.status(200).json({
+                        success: true,
+                        message:"SUCCESS"
+                    })
+                })
             })
         })
     },
 
-    createDetails:(req, res) => {
+    createOrdersDetails:(req, res) => {
         const body = req.body;
         createOrderDetails(body, (err, result) => {
             if(err) {
@@ -35,9 +52,9 @@ module.exports ={
         })
     },
 
-    getAllOrders:(req, res) => {
+    getOrders:(req,res) =>{
         const id = req.params.id
-        getOrders(id, (err, result) => {
+        getOrders(id, (err, results) => {
             if(err) {
                 return res.status(500).json({
                     success: false,
@@ -47,8 +64,8 @@ module.exports ={
             }
             return res.status(200).json({
                 success: true,
-                message:"SUCCESS",
-                data:result
+                message:"SUCESS",
+                data:results
             })
         })
     },
