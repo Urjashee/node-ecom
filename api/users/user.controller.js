@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync, compareSync} = require("bcrypt")
-const {create, getUsers, updateUser, deleteUsers, getUserByUserEmail} = require("./user.service")
+const {create, getUsers, updateUser, deleteUsers, getUserByUserEmail, getUserById} = require("./user.service")
 const { sign } = require("jsonwebtoken")
 
 module.exports ={
@@ -35,6 +35,24 @@ module.exports ={
                 success: true,
                 message:"SUCCESS",
                 data:result
+            })
+        })
+    },
+
+    getUserById:(req,res) =>{
+        const id = req.params.id
+        getUserById(id, (err, results) => {
+            if(err) {
+                return res.status(500).json({
+                    success: false,
+                    message:"ERROR",
+                    data:err
+                })
+            }
+            return res.status(200).json({
+                success: true,
+                message:"SUCCESS",
+                data:results
             })
         })
     },

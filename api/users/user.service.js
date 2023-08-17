@@ -34,6 +34,19 @@ module.exports = {
         )
     },
 
+    getUserById: (id, callBack) => {
+        pool.query(
+            `select * from users where user_id = ?`,
+            [id],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error)
+                }
+                return callBack(null, results)
+            }
+        )
+    },
+
     updateUser: (data, callBack) => {
         pool.query(
             `update users set first_name=?, last_name=?, email=?, address=?, phone_no=? where user_id=?`,
