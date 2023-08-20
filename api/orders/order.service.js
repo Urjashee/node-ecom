@@ -36,7 +36,23 @@ module.exports = {
 
     getOrders: (id, callBack) => {
         pool.query(
-            `select * from orders where order_id = ?`,
+            `select * from orders where user_id = ?`,
+            [id],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error)
+                }
+                return callBack(null, results)
+            }
+        )
+    },
+
+    getOrderDetails: (id, callBack) => {
+        pool.query(
+            `SELECT * FROM order_details 
+            INNER JOIN products 
+            ON order_details.product_id = products.product_id 
+            WHERE order_id = ?`,
             [id],
             (error, results, fields) => {
                 if (error) {

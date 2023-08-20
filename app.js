@@ -1,10 +1,11 @@
 require("dotenv").config();
 const express = require('express'); //import
 const app = express(); //initialize
+const cors = require('cors');
 const userRouter = require("./api/users/user.router")
 const productRouter = require("./api/products/product.router")
 const orderRouter = require("./api/orders/order.router")
-
+app.use(cors());
 app.use(express.json());
 
 app.use("/api",userRouter)

@@ -1,4 +1,4 @@
-const {create, createOrderDetails, getOrders} = require("./order.service")
+const {create, createOrderDetails, getOrders, getOrderDetails} = require("./order.service")
 
 module.exports ={
     createOrders:(req, res) => {
@@ -26,10 +26,10 @@ module.exports ={
                             data:err
                         })
                     }
-                    return res.status(200).json({
-                        success: true,
-                        message:"SUCCESS"
-                    })
+                })
+                return res.json({
+                    success: true,
+                    message:"SUCCESS"
                 })
             })
         })
@@ -66,6 +66,24 @@ module.exports ={
                 success: true,
                 message:"SUCESS",
                 data:results
+            })
+        })
+    },
+
+    getOrderDetails:(req, res) => {
+        const id = req.params.id
+        getOrderDetails(id, (err, result) => {
+            if(err) {
+                return res.status(500).json({
+                    success: false,
+                    message:"ERROR",
+                    data:err
+                })
+            }
+            return res.status(200).json({
+                success: true,
+                message:"SUCCESS",
+                data:result
             })
         })
     },
